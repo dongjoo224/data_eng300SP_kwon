@@ -7,12 +7,12 @@ If the dataset has not yet been downloaded, the function will fetch it and uploa
 
 # Task 2
 
-→ extract_dataset_from_s3("dongjoo-26spring", "data/ml-1m.zip", "ml-1m.zip", "data/")
+extract_dataset_from_s3("dongjoo-26spring", "data/ml-1m.zip", "ml-1m.zip", "data/")
 
 **Expected output**:
 When extract_dataset_from_s3 is called, it downloads ml-1m.zip from S3 and extracts its contents into the data/ folder on your instance. If successful, you will see "Retrieving file from S3 bucket" followed by "Done! Files are now in the 'data/' folder on your instance."
 
-→ output_data, movies_df = run_offline_step("data/ml-1m/movies.dat", "dongjoo-26spring", "data/movie_embeddings_1980.pt", "movie_embeddings.pt")
+output_data, movies_df = run_offline_step("data/ml-1m/movies.dat", "dongjoo-26spring", "data/movie_embeddings_1980.pt", "movie_embeddings.pt")
 
 **Expected output**:
 
@@ -28,13 +28,13 @@ final_results = get_all_recommendations(movie_data, ratings, movies_filtered, "d
 **Expected output**:
 When get_all_recommendations is called, it loads all user ratings, selects a random user from the top 5% of users based on their interaction count, and creates a new user with no history as the cold user. Then it generates 5 movie recommendations for each. The results are stored in the final_results variable . If the function runs successfully, you will see "Generating recommendations for cold user." followed by "Generating recommendations for top user."
 
-→ save_recs_to_s3(final_results, "dongjoo-26spring", "results/task3_recs.json")
+save_recs_to_s3(final_results, "dongjoo-26spring", "results/task3_recs.json")
 
 **Expected output**: 
 When save_recs_to_s3 is called, it writes the recommendations to a local JSON file and uploads it to S3 under results/task3_recs.json. The cold user always receives the 5 most recently released movies from the filtered dataset since there is no history to personalize their recommendations from. The top user receives recommendations based on BERT cosine similarity between their watch history embedding and all the movie embeddings in the filtered dataset. If the file is uploaded successfully, you will see "Uploaded recommendations to S3 bucket." You can also verify the file appeared by checking your S3 bucket directly.
 
 # Task 4
-→ get_all_recommendations_full("dongjoo-26spring", "data/ml-1m/movies.dat", "data/ml-1m/ratings.dat")
+get_all_recommendations_full("dongjoo-26spring", "data/ml-1m/movies.dat", "data/ml-1m/ratings.dat")
 
 **Expected output**:
 When get_all_recommendations_full is called, it reuses the existing method structures from Tasks 2 and 3 but on the full movie set with no filtering. It generates embeddings for all movies, gets recommendations for both user types, and saves the results to S3 under results/task4_recs.json. On the first run, no embeddings exist yet for the full dataset so they are generated and uploaded to S3, and you will see "Embeddings have not been made. Generating now." followed by "Embeddings created and stored in S3", "Generating recommendations for cold user.", "Generating recommendations for top user.", and finally "Recommendations for task 4 have been uploaded to S3." On subsequent runs, the embeddings are already in S3 and are reused, so "Embeddings have not been made. Generating now." and "Embeddings created and stored in S3" are replaced with "Embeddings have already been made.", with the remaining output staying the same.
@@ -43,7 +43,7 @@ You will also see a JSON output of each user and their recommendations, formatte
 
 # Task 5
 
-→ get_personal_recommendations("dongjoo-26spring", output_data, movies_df)
+get_personal_recommendations("dongjoo-26spring", output_data, movies_df)
 
 **Expected output**:
 When get_personal_recommendations is called, it creates a personal user profile based on 10 hardcoded movie ratings. For the movies I picked for myself, I chose movies that reflected a preference for romantic and animated classics and a dislike of sci-fi and horror. It is saves the profile to S3 under results/my_profile.json, then generates 5 personalized recommendations by computing the cosine similarity again between the user's taste embedding and all the movie embeddings in the filtered set, and saves those to S3 under results/my_recs.json. Since the ratings are hardcoded, the recommendations will always be the same every run. If everything runs successfully, you will see "Profile has been saved to S3." followed by "Recommendations have been saved to S3."
