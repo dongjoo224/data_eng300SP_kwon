@@ -15,7 +15,6 @@ When extract_dataset_from_s3 is called, it downloads ml-1m.zip from S3 and extra
 output_data, movies_df = run_offline_step("data/ml-1m/movies.dat", "dongjoo-26spring", "data/movie_embeddings_1980.pt", "movie_embeddings.pt")
 
 **Expected output**:
-
 When run_offline_step is called, it first checks S3 for existing embeddings. On the first run, no embeddings exist yet, so the function filters movies to 1980 and earlier, builds BERT text for each movie, generates embeddings, saves the result locally, and uploads it to S3, printing "Embeddings have not been made. Generating now." followed by "Embeddings created and stored in S3". On subsequent runs, the function will see that the embeddings are already in S3, and will skip regenerating them entirely, and will load the cached file instead, printing "Embeddings have already been made."
 
 # Task 3
