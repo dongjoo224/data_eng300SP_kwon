@@ -1,6 +1,8 @@
 # Prerequisites: 
 Environment: must be using an AWS EC2 instance running a Jupyter Notebook within a Python virtual environment (ex. "pyspark-venv")
+
 Python packages: must have pyspark, pandas, matplotlib, and boto3 installed. Note that boto3 can be installed automatically via running the very first cell in the notebook. 
+
 Data files: must have the raw Parquet files located in a data/ directory relative to the notebook. 
     data/yellow_tripdata_2026-01.parquet
     data/green_tripdata_2026-01.parquet
