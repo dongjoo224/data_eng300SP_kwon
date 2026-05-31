@@ -1,0 +1,3 @@
+Group: Dong Joo Kwon, Irene Ha, Eva Gong
+MWAA Environment: de300-airflow-kwon-ha-gong
+S3 Bucket: de300-airflow-kwon-ha-gong
